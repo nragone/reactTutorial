@@ -1,0 +1,38 @@
+.btnSlide {
+  width: 55px;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 2px 0px 8px #000000 inset;
+}
+
+.btnSlide:hover {
+  cursor: pointer;
+}
+
+.btnSlide input {
+  display: none;
+}
+
+.btnSlide label {
+  font-size: 12px;
+  padding: 0 5px;
+}
+
+.btnSlide:before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: darkorange;
+  box-shadow: 2px 0px 8px #000000;
+  display: block;
+}
+
+.btnSlide.-active:before {
+  order: 2;
+  box-shadow: -2px 0px 8px #000000;
+}
