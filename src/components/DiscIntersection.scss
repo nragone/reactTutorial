@@ -1,0 +1,15 @@
+$component-name: 'DiscIntersection';
+$component-selector: '.#{$component-name}';
+
+#{$component-selector} {
+
+    position: relative;
+    left: 0;
+    top: 0;
+
+    .graphContainer {}
+
+    .axis {
+        transform: scale(10,10);
+    }
+}

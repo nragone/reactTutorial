@@ -5,6 +5,10 @@ import Clock from './components/Clock';
 import CustomList from './components/CustomList';
 import Slider from './components/Slider';
 import ControlledForm from './components/ControlledForm';
+import Equilibrium from './components/Equilibrium';
+import DiscIntersection from './components/DiscIntersection';
+
+import Codility from './components/Codility';
 
 //Element
 const basicSyntax = <div className="component"><h2>Basic Element</h2></div>;
@@ -56,8 +60,6 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
           <Clock />
-          <Clock />
-          <Clock />
         </div>
         
         {basicSyntax}
@@ -85,6 +87,18 @@ class App extends Component {
           <h2>Controlled Component</h2>
           <ControlledForm></ControlledForm>
         </div>
+
+        <div className="component">
+          <h2>Equilibrium</h2>
+          <Equilibrium></Equilibrium>
+        </div>
+
+        <div className="component">
+          <h2>Disc Intersection</h2>
+          <DiscIntersection discsRatio={[1,5,2,1,4,0]}></DiscIntersection>
+        </div>
+
+        <Codility></Codility>
 
       </div>
     );
