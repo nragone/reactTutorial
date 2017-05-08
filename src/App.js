@@ -96,6 +96,7 @@ class App extends Component {
         <div className="component">
           <h2>Disc Intersection</h2>
           <DiscIntersection discsRatio={[1,5,2,1,4,0]}></DiscIntersection>
+          <DiscIntersection discsRatio={[1,3,2]}></DiscIntersection>
         </div>
 
         <Codility></Codility>

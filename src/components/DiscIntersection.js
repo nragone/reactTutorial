@@ -4,53 +4,50 @@ import './DiscIntersection.css';
 class DiscIntersection extends Component {
 
     componentWillMount() {
-        console.log("component did mount");
-
-        var count = this.findIntersections(this.props.discsRatio);
-        console.log(count);
-
-        this.setState({
-            intersections: (count > 0) ? count : 'No intersections'
-        });
-
+        this.findIntersections(this.props.discsRatio);
     }
 
-    componentWillUnmount() {
-        console.log("component will unmount");
-    }
+    findIntersections(discs) {  
 
-    findIntersections(discs) {
-        console.log("find intersections");
-        let sLeft = [];
-        let sRight = [];
-        var pairs = 0;
+        var events = [];
+        var intersections = 0;
+        var activeCircles = 0;
 
         //Fill array with segments
-        for(let i=0; i < discs.length; i++) {
-            sLeft.push(i - discs[i]);
-            sRight.push(i + discs[i]);
-        }
+        discs.forEach((element, index) => {
+            events.push({
+                point: index - element,
+                side: 1
+            }, {
+                point: index + element,
+                side: -1
+            });
+        });
+
+        events.sort((a, b) => { return a.point - b.point; });
 
         //Search for intersections between segments
-        for (let i=0; i < discs.length; i++) {
-            for (var j=1; j < discs.length; j++) {
-                if (sRight[i] >= sLeft[j]) {
-                pairs++;
-                if (pairs > 10000000) return -1;
-                }
-            }
-        }
+        events.forEach((element) => {
 
-        this.setState({sLeft: sLeft});
-        this.setState({sRight: sRight});
+            intersections += activeCircles * (element.side > 0);
+            activeCircles += element.side;
 
-        return pairs;
+            if (intersections > 10e6) return -1;
+        });
+
+        this.setState({pairs: intersections});
+
+        return intersections;
     }
 
     render() {
+
+        var zoom = 20;
+        var deltaY = 100;
+        var deltaX = 100;
+
         return (
             <div className="DiscIntersection">
-                <h2>INCOMPLETE!!</h2>
                 <div>
                     <table>
                         <tbody>
@@ -64,28 +61,25 @@ class DiscIntersection extends Component {
                     </table>
 
                     <div className="graphContainer">
-                        <svg height="100" width="100" className="axis">
+                        <svg height="200" width="100%" className="axis">
+                            <line x1={deltaX} y1={deltaY} x2="100%" y2={deltaY} style={{stroke: '#222', strokeWidth: '1'}} />
+                            <point></point>
                         {
                             this.props.discsRatio.map(
                                 (val, index) => 
-                                    <circle key={index} cx={index+50} cy="50" r={val} stroke="black" strokeWidth="0.25" fill="transparent" />
+                                    <circle key={index} cx={index*zoom + deltaX} cy={deltaY} r={val*zoom} stroke="black" strokeWidth="1" fill="transparent" />
+                            )
+                        }
+                        {
+                            this.props.discsRatio.map(
+                                (val, index) => 
+                                    <text key={index} x={index*zoom + deltaX} y={deltaY}>.{index}</text>
                             )
                         }
                         </svg>
                     </div>
 
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th colSpan={this.state.sLeft.length}>Segments</th>
-                            </tr>
-                            <tr>
-                                {this.state.sLeft.map((val, index) => <td key={index}>{'[' + val + ',' + this.state.sRight[index] + ']'}</td>)}
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <h2>{this.state.intersections}</h2>
+                    <h2>{this.state.pairs}</h2>
                 </div>
             </div>
         );
